@@ -1,0 +1,47 @@
+Lambda = Purchase = arn:aws:lambda:ap-south-1:059047410796:function:purchase
+
+Lambda = Refund = arn:aws:lambda:ap-south-1:059047410796:function:refund
+
+
+###############################
+New Execution Code :
+{
+  "Comment": "Transaction Processor State Machine",
+  "StartAt": "ProcessTransaction",
+  "States": {
+    "ProcessTransaction": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.TransactionType",
+          "StringEquals": "PURCHASE",
+          "Next": "ProcessPurchase"
+        },
+        {
+          "Variable": "$.TransactionType",
+          "StringEquals": "REFUND",
+          "Next": "ProcessRefund"
+        }
+      ]
+    },
+    "ProcessRefund": {
+      "Type": "Task",
+      "Resource": "",                          //Replace by own arn
+      "End": true
+    },
+    "ProcessPurchase": {
+      "Type": "Task",
+      "Resource": "",                          //Replace by own arn
+      "End": true
+    }
+  }
+}
+###########################################
+
+
+Start-Execution:
+{
+
+
+    "TransactionType":"PURCHASE"
+}
